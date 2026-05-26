@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lynote SEO Dashboard</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 40px 24px; max-width: 700px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+  .sub { font-size: 13px; color: #888; margin-bottom: 32px; }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 22px 24px; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, box-shadow 0.15s; }
+  .card:hover { border-color: #534AB7; box-shadow: 0 2px 12px rgba(83,74,183,0.08); }
+  .card-icon { font-size: 28px; margin-bottom: 10px; }
+  .card-title { font-size: 15px; font-weight: 500; margin-bottom: 5px; }
+  .card-desc { font-size: 12px; color: #888; line-height: 1.6; }
+  .divider { border: none; border-top: 1px solid #e8e8e8; margin: 28px 0; }
+  .footer { font-size: 11px; color: #bbb; }
+</style>
+</head>
+<body>
+<h1>Lynote SEO Dashboard</h1>
+<p class="sub">内部使用 · 关键词策略 & 推广执行计划</p>
+
+<div class="card-grid">
+  <a class="card" href="trends.html">
+    <div class="card-icon">📈</div>
+    <div class="card-title">功能搜索趋势分析</div>
+    <div class="card-desc">Google Trends · 美国市场 · 11个功能的2年热度趋势、淡旺季规律、增长方向</div>
+  </a>
+  <a class="card" href="calendar.html">
+    <div class="card-icon">📅</div>
+    <div class="card-title">年度推广执行日历</div>
+    <div class="card-desc">按月拆解每个时间段的重点功能、核心动作、关键词和推广渠道</div>
+  </a>
+</div>
+
+<hr class="divider">
+<p class="footer">数据来源：Semrush（美国市场）+ Google Trends（美国市场）· 更新于 2026年5月</p>
+</body>
+</html>

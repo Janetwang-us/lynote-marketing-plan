@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lynote — 功能搜索趋势分析</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 24px; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .sub { font-size: 13px; color: #888; margin-bottom: 20px; }
+  .tab-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tab { font-size: 12px; padding: 5px 12px; border-radius: 6px; border: 1px solid #ddd; cursor: pointer; background: #fff; color: #555; transition: all 0.15s; }
+  .tab:hover { border-color: #999; }
+  .tab.active { background: #534AB7; color: #fff; border-color: #534AB7; }
+  .chart-wrap { background: #fff; border-radius: 12px; border: 1px solid #e8e8e8; padding: 20px; margin-bottom: 16px; }
+  .chart-inner { position: relative; width: 100%; height: 300px; }
+  .insight-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .ic { background: #fff; border-radius: 10px; border: 1px solid #e8e8e8; padding: 12px 14px; }
+  .ic-label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .ic-val { font-size: 15px; font-weight: 500; }
+  .ic-sub { font-size: 11px; color: #aaa; margin-top: 3px; }
+  .badge-up { display: inline-block; background: #EAF3DE; color: #27500A; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+  .badge-warn { display: inline-block; background: #FCEBEB; color: #791F1F; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+  .badge-flat { display: inline-block; background: #F1EFE8; color: #444; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+  @media(max-width:600px) { .insight-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<h1>Lynote 功能搜索趋势分析</h1>
+<p class="sub">Google Trends · 美国市场 · 2024年1月 — 2026年5月 &nbsp;|&nbsp; 点击功能名称切换</p>
+
+<div class="tab-row" id="tabs"></div>
+<div class="chart-wrap"><div class="chart-inner"><canvas id="trendChart" role="img" aria-label="搜索热度趋势折线图"></canvas></div></div>
+<div class="insight-grid" id="insightGrid"></div>
+
+<script>
+const DATA = {
+  labels: ['24-01','24-02','24-03','24-04','24-05','24-06','24-07','24-08','24-09','24-10','24-11','24-12','25-01','25-02','25-03','25-04','25-05','25-06','25-07','25-08','25-09','25-10','25-11','25-12','26-01','26-02','26-03','26-04','26-05'],
+  funcs: [
+    {name:'AI Detector',color:'#534AB7',vals:[11,20,19,25,22,13,11,14,42,54,58,55,37,66,68,74,60,34,28,34,78,100,91,72,55,74,80,77,62],trend:'+338%',peak:'Sep–Nov',low:'Jun–Jul',dir:'up',note:'强学期规律，每年9月爆发，6-8月暑假明显回落'},
+    {name:'AI Humanizer',color:'#1D9E75',vals:[3,6,7,11,10,7,6,10,29,43,53,54,41,78,81,80,65,35,26,32,84,100,76,68,54,71,69,63,49],trend:'+1031%',peak:'Sep–Nov',low:'Jun–Jul',dir:'up',note:'增速最猛，与AI Detector完全同步，学期驱动明显'},
+    {name:'AI Notes',color:'#0F6E56',vals:[18,24,21,23,21,21,24,34,49,52,40,37,59,64,61,59,47,50,54,83,97,82,68,53,73,79,78,100,71],trend:'+295%',peak:'Aug–Oct',low:'Jun',dir:'up',note:'持续上升，2026年4月创新高，开学季+平时均有需求'},
+    {name:'Audio to Text',color:'#185FA5',vals:[35,41,40,42,39,36,35,37,48,49,46,45,45,54,54,50,55,55,60,57,67,64,65,80,83,88,100,88,67],trend:'+120%',peak:'Mar',low:'Jun–Aug',dir:'up',note:'最稳健上升，无大起大落，结构性增长'},
+    {name:'YT Summarizer',color:'#D85A30',vals:[33,52,50,61,46,28,21,38,93,89,84,70,90,100,91,89,61,45,45,42,91,71,65,59,52,67,51,49,30],trend:'-4%',peak:'Sep–Feb',low:'Jun–Aug',dir:'warn',note:'整体走平，2026年有下降趋势，需关注'},
+    {name:'YT Transcript',color:'#BA7517',vals:[18,23,21,22,17,14,13,16,26,25,23,21,25,32,30,30,27,26,67,34,36,38,67,68,76,100,79,70,44],trend:'+211%',peak:'Feb',low:'Jun–Jul',dir:'up',note:'2025下半年突然爆发，2月历史峰值，持续上升'},
+    {name:'Video to Text',color:'#7F77DD',vals:[21,39,26,27,23,23,23,21,28,29,29,27,28,34,32,32,30,53,72,53,50,49,75,97,92,99,100,85,51],trend:'+174%',peak:'Mar',low:'May',dir:'up',note:'2025年下半年加速爆发，12月-3月持续高位'},
+    {name:'AI Translator',color:'#888780',vals:[42,42,43,46,46,37,33,39,50,52,56,53,53,59,63,59,63,62,64,55,81,82,79,73,74,83,100,94,78],trend:'+114%',peak:'Mar–Apr',low:'Jul–Aug',dir:'up',note:'平稳上升，季节性弱，全年较均匀'},
+    {name:'Doc Translator',color:'#5F5E5A',vals:[32,35,40,38,37,33,34,41,41,36,36,33,37,41,40,44,48,71,88,74,89,65,75,72,81,100,99,97,64],trend:'+143%',peak:'Feb–Mar',low:'Jun',dir:'up',note:'2025下半年意外大幅上升，值得重新评估优先级'},
+    {name:'Compress PDF',color:'#EF9F27',vals:[59,68,68,66,62,59,60,63,63,69,69,70,77,85,81,76,81,77,82,75,89,88,80,75,73,84,100,100,85],trend:'+46%',peak:'Mar–Apr',low:'Jun–Aug',dir:'flat',note:'极稳定，几乎无淡旺季，是最可靠的流量基本盘'},
+    {name:'Compress Image',color:'#E24B4A',vals:[60,60,60,62,57,57,64,62,68,62,61,63,65,71,64,68,64,63,73,66,69,66,69,67,65,85,92,100,93],trend:'+58%',peak:'Mar–Apr',low:'Jun',dir:'flat',note:'极稳定，2026年初有提速，适合长期布局'},
+  ]
+};
+
+let cur = 0;
+let chart = null;
+
+function renderTabs() {
+  const row = document.getElementById('tabs');
+  row.innerHTML = '';
+  DATA.funcs.forEach((f, i) => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (i===cur?' active':'');
+    b.textContent = f.name;
+    b.onclick = () => { cur=i; renderTabs(); updateChart(); renderInsights(); };
+    row.appendChild(b);
+  });
+}
+
+function renderInsights() {
+  const f = DATA.funcs[cur];
+  const bc = f.dir==='up'?'badge-up':f.dir==='warn'?'badge-warn':'badge-flat';
+  const bt = f.dir==='up'?'↑ 持续上升':f.dir==='warn'?'→ 趋势走平':'→ 稳定';
+  document.getElementById('insightGrid').innerHTML = `
+    <div class="ic"><div class="ic-label">2年增长</div><div class="ic-val">${f.trend}</div><div class="ic-sub"><span class="${bc}">${bt}</span></div></div>
+    <div class="ic"><div class="ic-label">旺季</div><div class="ic-val" style="font-size:13px">${f.peak}</div><div class="ic-sub">重点投放期</div></div>
+    <div class="ic"><div class="ic-label">淡季</div><div class="ic-val" style="font-size:13px">${f.low}</div><div class="ic-sub">降低预算</div></div>
+    <div class="ic" style="grid-column:span 1"><div class="ic-label">规律特征</div><div class="ic-val" style="font-size:12px;line-height:1.5">${f.note}</div></div>
+  `;
+}
+
+function updateChart() {
+  const f = DATA.funcs[cur];
+  chart.data.datasets[0].data = f.vals;
+  chart.data.datasets[0].borderColor = f.color;
+  chart.data.datasets[0].backgroundColor = f.color + '20';
+  chart.data.datasets[0].label = f.name;
+  chart.update();
+}
+
+const ctx = document.getElementById('trendChart').getContext('2d');
+const f0 = DATA.funcs[0];
+chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: DATA.labels,
+    datasets: [{label:f0.name,data:f0.vals,borderColor:f0.color,backgroundColor:f0.color+'20',borderWidth:2.5,pointRadius:3,pointHoverRadius:6,fill:true,tension:0.3}]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`热度指数: ${c.parsed.y}`}}},
+    scales:{
+      x:{ticks:{color:'#888',font:{size:10},maxRotation:45},grid:{color:'rgba(0,0,0,0.06)'}},
+      y:{min:0,max:105,ticks:{color:'#888',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'},title:{display:true,text:'Google Trends 热度指数 (0–100)',color:'#888',font:{size:11}}}
+    }
+  }
+});
+
+renderTabs();
+renderInsights();
+</script>
+</body>
+</html>
