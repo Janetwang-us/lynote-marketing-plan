@@ -6,28 +6,45 @@
 <title>Lynote SEO Dashboard</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 40px 24px; max-width: 700px; margin: 0 auto; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 40px 24px; max-width: 800px; margin: 0 auto; }
   h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
-  .sub { font-size: 13px; color: #888; margin-bottom: 32px; }
+  .sub { font-size: 13px; color: #888; margin-bottom: 12px; }
+  .summary-box { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 16px 20px; margin-bottom: 28px; }
+  .summary-box p { font-size: 13px; color: #444; line-height: 1.8; margin-bottom: 10px; }
+  .summary-box p:last-child { margin-bottom: 0; }
+  .summary-label { font-size: 11px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
   .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .card { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 22px 24px; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, box-shadow 0.15s; }
-  .card:hover { border-color: #534AB7; box-shadow: 0 2px 12px rgba(83,74,183,0.08); }
-  .card-icon { font-size: 28px; margin-bottom: 10px; }
+  .card { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 22px 24px; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s; }
+  .card:hover { border-color: #534AB7; }
+  .card-icon { font-size: 26px; margin-bottom: 10px; }
   .card-title { font-size: 15px; font-weight: 500; margin-bottom: 5px; }
   .card-desc { font-size: 12px; color: #888; line-height: 1.6; }
   .divider { border: none; border-top: 1px solid #e8e8e8; margin: 28px 0; }
   .footer { font-size: 11px; color: #bbb; }
+  @media(max-width:500px) { .card-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <h1>Lynote SEO Dashboard</h1>
 <p class="sub">内部使用 · 关键词策略 & 推广执行计划</p>
 
+<div class="summary-box">
+  <div class="summary-label">商业化价值总结</div>
+  <p>AI Detector 与 AI Humanizer 是流量与变现双核心（月搜合计500万+、学生用户精准），AI Notes 商业价值密度最高（CPC $3.3全库第一），Audio to Text / Video to Text 是增速最快的新兴机会（2年增长120-174%、CPC高），Compress PDF / Image 是稳定流量基本盘（月搜110K、全年无淡季），翻译类功能 B 端价值高但竞争壁垒大，维持自然流量即可。</p>
+  <div class="summary-label" style="margin-top:12px">推广节奏总结</div>
+  <p>现在到8月蓄力建设（内容+外链），9-11月全力押注 AI Detector / Humanizer 收割开学季峰值流量，淡季用 Compress PDF / Audio to Text 托底，全年形成"教育类功能随学期冲高、工具类功能稳定兜底"的双轨节奏。</p>
+</div>
+
 <div class="card-grid">
+  <a class="card" href="matrix.html">
+    <div class="card-icon">📊</div>
+    <div class="card-title">功能商业价值矩阵</div>
+    <div class="card-desc">CPC × 搜索量气泡图，直观对比11个功能的流量规模与商业价值</div>
+  </a>
   <a class="card" href="trends.html">
     <div class="card-icon">📈</div>
     <div class="card-title">功能搜索趋势分析</div>
-    <div class="card-desc">Google Trends · 美国市场 · 11个功能的2年热度趋势、淡旺季规律、增长方向</div>
+    <div class="card-desc">Google Trends · 美国市场 · 11个功能的2年热度趋势、淡旺季规律</div>
   </a>
   <a class="card" href="calendar.html">
     <div class="card-icon">📅</div>
