@@ -6,141 +6,79 @@
 <title>Lynote — 功能商业价值矩阵</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 24px; max-width: 900px; margin: 0 auto; }
-  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-  .sub { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .legend-row { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; font-size: 12px; color: #555; }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
-  .chart-wrap { background: #fff; border-radius: 12px; border: 1px solid #e8e8e8; padding: 20px; margin-bottom: 20px; }
-  .chart-inner { position: relative; width: 100%; height: 420px; }
-  .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .ic { background: #fff; border-radius: 10px; border: 1px solid #e8e8e8; padding: 12px 14px; }
-  .ic-label { font-size: 11px; color: #888; margin-bottom: 4px; }
-  .ic-val { font-size: 14px; font-weight: 500; line-height: 1.4; }
-  .ic-sub { font-size: 11px; color: #aaa; margin-top: 3px; }
-  @media(max-width:600px) { .insight-grid { grid-template-columns: 1fr 1fr; } }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a1a;padding:24px;max-width:900px;margin:0 auto}
+  h1{font-size:20px;font-weight:500;margin-bottom:4px}
+  .sub{font-size:13px;color:#888;margin-bottom:20px}
+  .legend-row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px;font-size:12px;color:#555}
+  .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle}
+  .chart-wrap{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:20px;margin-bottom:20px}
+  .chart-inner{position:relative;width:100%;height:420px}
+  .insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .ic{background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:12px 14px}
+  .ic-label{font-size:11px;color:#888;margin-bottom:4px}
+  .ic-val{font-size:14px;font-weight:500;line-height:1.4}
+  .ic-sub{font-size:11px;color:#aaa;margin-top:3px}
+  .badge-new{display:inline-block;background:#FFF3CD;color:#854F0B;font-size:10px;padding:1px 6px;border-radius:4px;margin-left:4px}
 </style>
 </head>
 <body>
 <h1>Lynote 功能商业价值矩阵</h1>
-<p class="sub">X轴 = 平均CPC（商业价值越高越靠右）· Y轴 = 核心大词真实月搜索量（需求越大越靠上）· 气泡大小 = 主攻词月搜索总量</p>
+<p class="sub">X轴 = 平均CPC（商业价值越高越靠右）· Y轴 = 核心大词真实月搜索量 · 气泡大小 = 主攻词月搜索总量 &nbsp;|&nbsp; <span style="color:#E8A020">★ = 6月15日新上线功能</span></p>
 
 <div class="legend-row">
-  <span><span class="legend-dot" style="background:#534AB7;"></span>重点推广 P1</span>
-  <span><span class="legend-dot" style="background:#1D9E75;"></span>重点推广 P2</span>
-  <span><span class="legend-dot" style="background:#5DCAA5;"></span>重点推广 P3</span>
-  <span><span class="legend-dot" style="background:#888780;"></span>网站运营</span>
-  <span><span class="legend-dot" style="background:#EF9F27;"></span>快速起量</span>
-  <span style="color:#aaa;">气泡大小 = 主攻词月搜索总量</span>
+  <span><span class="legend-dot" style="background:#534AB7"></span>重点推广 P1</span>
+  <span><span class="legend-dot" style="background:#1D9E75"></span>重点推广 P2</span>
+  <span><span class="legend-dot" style="background:#5DCAA5"></span>重点推广 P3</span>
+  <span><span class="legend-dot" style="background:#888780"></span>网站运营</span>
+  <span><span class="legend-dot" style="background:#EF9F27"></span>快速起量</span>
+  <span><span class="legend-dot" style="background:#E8A020"></span>★ 6/15新上线</span>
+  <span style="color:#aaa">气泡大小 = 主攻词月搜索总量</span>
 </div>
 
-<div class="chart-wrap">
-  <div class="chart-inner">
-    <canvas id="matrix" role="img" aria-label="功能商业价值气泡矩阵：AI Detector核心词月搜409万，AI Humanizer主攻词总量140万，AI Notes CPC最高$3.3"></canvas>
-  </div>
-</div>
+<div class="chart-wrap"><div class="chart-inner"><canvas id="matrix"></canvas></div></div>
 
 <div class="insight-grid">
-  <div class="ic">
-    <div class="ic-label">流量规模最大</div>
-    <div class="ic-val">AI Detector</div>
-    <div class="ic-sub">核心词月搜 409万</div>
-  </div>
-  <div class="ic">
-    <div class="ic-label">商业价值最高</div>
-    <div class="ic-val">AI Notes</div>
-    <div class="ic-sub">平均CPC $3.3，付费意愿最强</div>
-  </div>
-  <div class="ic">
-    <div class="ic-label">性价比最高</div>
-    <div class="ic-val">Audio to Text</div>
-    <div class="ic-sub">CPC $1.9 高，KD 63 低，稳健增长</div>
-  </div>
-  <div class="ic">
-    <div class="ic-label">快速起量首选</div>
-    <div class="ic-val">Compress PDF</div>
-    <div class="ic-sub">月搜110K，KD61，全年无淡季</div>
-  </div>
-  <div class="ic">
-    <div class="ic-label">增速最快</div>
-    <div class="ic-val">AI Humanizer</div>
-    <div class="ic-sub">2年增长 +1031%，与Detector天然捆绑</div>
-  </div>
-  <div class="ic">
-    <div class="ic-label">意外黑马</div>
-    <div class="ic-val">Document Translator</div>
-    <div class="ic-sub">2025下半年热度突增143%，值得关注</div>
-  </div>
+  <div class="ic"><div class="ic-label">流量规模最大</div><div class="ic-val">AI Detector</div><div class="ic-sub">核心词月搜 409万</div></div>
+  <div class="ic"><div class="ic-label">商业价值最高</div><div class="ic-val">AI Notes</div><div class="ic-sub">平均CPC $3.3，升级为P1，现在立刻推</div></div>
+  <div class="ic"><div class="ic-label">趋势最强新功能</div><div class="ic-val">AI Image Detector <span class="badge-new">★ 6/15</span></div><div class="ic-sub">2年+1150%，5月历史新高，最佳入场时机</div></div>
+  <div class="ic"><div class="ic-label">快速起量首选</div><div class="ic-val">Compress PDF</div><div class="ic-sub">月搜110K，KD61，全年无淡季</div></div>
+  <div class="ic"><div class="ic-label">性价比最高</div><div class="ic-val">Audio to Text</div><div class="ic-sub">CPC $1.9高，KD63低，稳健增长</div></div>
+  <div class="ic"><div class="ic-label">差异化新功能</div><div class="ic-val">Bulk YT Transcript <span class="badge-new">★ 6/15</span></div><div class="ic-sub">KD低至28-35，上线即可冲排名</div></div>
 </div>
 
 <script>
-const funcs = [
-  { label:'AI Detector',        cpc:0.9,  coreVol:4090000, totalVol:4258100, color:'#534AB7' },
-  { label:'AI Humanizer',       cpc:1.0,  coreVol:823000,  totalVol:1395200, color:'#534AB7' },
-  { label:'YouTube Summarizer', cpc:0.6,  coreVol:9900,    totalVol:20900,   color:'#1D9E75' },
-  { label:'Audio to Text',      cpc:1.9,  coreVol:12100,   totalVol:30800,   color:'#1D9E75' },
-  { label:'AI Notes',           cpc:3.3,  coreVol:18100,   totalVol:25400,   color:'#1D9E75' },
-  { label:'YouTube Transcript', cpc:0.8,  coreVol:49500,   totalVol:83800,   color:'#5DCAA5' },
-  { label:'Video to Text',      cpc:1.4,  coreVol:9900,    totalVol:20100,   color:'#5DCAA5' },
-  { label:'AI Translator',      cpc:2.9,  coreVol:12100,   totalVol:13500,   color:'#888780' },
-  { label:'Doc Translator',     cpc:2.3,  coreVol:5400,    totalVol:10900,   color:'#888780' },
-  { label:'Compress PDF',       cpc:0.5,  coreVol:110000,  totalVol:152800,  color:'#EF9F27' },
-  { label:'Compress Image',     cpc:0.7,  coreVol:22200,   totalVol:18200,   color:'#EF9F27' },
+const funcs=[
+  {label:'AI Detector',cpc:0.9,coreVol:4090000,totalVol:4258100,color:'#534AB7'},
+  {label:'AI Humanizer',cpc:1.0,coreVol:823000,totalVol:1395200,color:'#534AB7'},
+  {label:'AI Notes ★P1',cpc:3.3,coreVol:18100,totalVol:25400,color:'#534AB7'},
+  {label:'AI Image Det. ★6/15',cpc:0.85,coreVol:22200,totalVol:27710,color:'#E8A020'},
+  {label:'Bulk YT Trans. ★6/15',cpc:1.1,coreVol:500,totalVol:1210,color:'#E8A020'},
+  {label:'Audio to Text',cpc:1.9,coreVol:12100,totalVol:30800,color:'#1D9E75'},
+  {label:'YT Summarizer',cpc:0.6,coreVol:9900,totalVol:20900,color:'#1D9E75'},
+  {label:'YT Transcript',cpc:0.8,coreVol:49500,totalVol:83800,color:'#5DCAA5'},
+  {label:'Video to Text',cpc:1.4,coreVol:9900,totalVol:20100,color:'#5DCAA5'},
+  {label:'AI Translator',cpc:2.9,coreVol:12100,totalVol:13500,color:'#888780'},
+  {label:'Doc Translator',cpc:2.3,coreVol:5400,totalVol:10900,color:'#888780'},
+  {label:'Compress PDF',cpc:0.5,coreVol:110000,totalVol:152800,color:'#EF9F27'},
+  {label:'Compress Image',cpc:0.7,coreVol:22200,totalVol:18200,color:'#EF9F27'},
 ];
-
-const maxTotal = Math.max(...funcs.map(f => f.totalVol));
-
-const ctx = document.getElementById('matrix').getContext('2d');
-new Chart(ctx, {
-  type: 'bubble',
-  data: {
-    datasets: funcs.map(f => ({
-      label: f.label,
-      data: [{ x: f.cpc, y: f.coreVol, r: Math.max(7, Math.round(Math.sqrt(f.totalVol / maxTotal) * 58)) }],
-      backgroundColor: f.color + 'bb',
-      borderColor: f.color,
-      borderWidth: 1.5,
-    }))
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    layout: { padding: { top: 30, right: 80, bottom: 10, left: 10 } },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: ctx => {
-            const f = funcs[ctx.datasetIndex];
-            return [
-              f.label,
-              `平均CPC: $${f.cpc.toFixed(1)}`,
-              `核心词月搜: ${f.coreVol.toLocaleString()}`,
-              `主攻词总搜: ${f.totalVol.toLocaleString()}`,
-            ];
-          }
-        }
-      }
-    },
-    scales: {
-      x: {
-        title: { display: true, text: '平均CPC ($)  —  越高商业价值越大', font: { size: 12 }, color: '#888' },
-        min: 0, max: 4.2,
-        ticks: { callback: v => '$' + v.toFixed(1), color: '#888', font: { size: 11 } },
-        grid: { color: 'rgba(0,0,0,0.06)' }
-      },
-      y: {
-        title: { display: true, text: '核心大词月搜索量（真实需求规模）', font: { size: 12 }, color: '#888' },
-        min: 0, max: 4500000,
-        ticks: {
-          callback: v => v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'K' : v,
-          color: '#888', font: { size: 11 }
-        },
-        grid: { color: 'rgba(0,0,0,0.06)' }
-      }
-    }
-  }
+const maxTotal=Math.max(...funcs.map(f=>f.totalVol));
+const ctx=document.getElementById('matrix').getContext('2d');
+new Chart(ctx,{
+  type:'bubble',
+  data:{datasets:funcs.map(f=>({
+    label:f.label,
+    data:[{x:f.cpc,y:f.coreVol,r:Math.max(7,Math.round(Math.sqrt(f.totalVol/maxTotal)*58))}],
+    backgroundColor:f.color+'bb',borderColor:f.color,borderWidth:1.5,
+  }))},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:30,right:80,bottom:10,left:10}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const f=funcs[ctx.datasetIndex];return[f.label,`平均CPC: $${f.cpc.toFixed(1)}`,`核心词月搜: ${f.coreVol.toLocaleString()}`,`主攻词总搜: ${f.totalVol.toLocaleString()}`]}}}},
+    scales:{
+      x:{title:{display:true,text:'平均CPC ($)  —  越高商业价值越大',font:{size:12},color:'#888'},min:0,max:4.2,ticks:{callback:v=>'$'+v.toFixed(1),color:'#888',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},
+      y:{title:{display:true,text:'核心大词月搜索量（真实需求规模）',font:{size:12},color:'#888'},min:0,max:4500000,ticks:{callback:v=>v>=1000000?(v/1000000).toFixed(1)+'M':v>=1000?(v/1000).toFixed(0)+'K':v,color:'#888',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}}
+    }}
 });
 </script>
 </body>

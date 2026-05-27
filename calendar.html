@@ -5,151 +5,130 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lynote — 年度推广执行日历</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 24px; max-width: 900px; margin: 0 auto; }
-  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-  .sub { font-size: 13px; color: #888; margin-bottom: 24px; }
-  .period-row { border: 1px solid #e8e8e8; border-radius: 10px; margin-bottom: 10px; overflow: hidden; background: #fff; }
-  .period-row.highlight { border: 2px solid #534AB7; }
-  .period-header { display: grid; grid-template-columns: 170px 1fr 150px; cursor: pointer; align-items: stretch; }
-  .ph-time { background: #f8f8f6; padding: 14px 16px; border-right: 1px solid #e8e8e8; display: flex; flex-direction: column; justify-content: center; }
-  .ph-time .month { font-size: 13px; font-weight: 500; }
-  .ph-time .season { font-size: 11px; margin-top: 4px; }
-  .season-peak { color: #27500A; font-weight: 500; }
-  .season-low { color: #791F1F; }
-  .season-warm { color: #854F0B; }
-  .ph-funcs { padding: 14px 16px; display: flex; flex-direction: column; justify-content: center; }
-  .ph-funcs .func-line { font-size: 13px; font-weight: 500; white-space: pre-line; line-height: 1.5; }
-  .ph-funcs .badges { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
-  .ph-kw { padding: 14px 16px; border-left: 1px solid #e8e8e8; font-size: 11px; color: #666; display: flex; flex-direction: column; justify-content: center; line-height: 1.7; }
-  .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
-  .bg-p1 { background: #EEEDFE; color: #3C3489; }
-  .bg-p2 { background: #E1F5EE; color: #085041; }
-  .bg-p3 { background: #E6F1FB; color: #0C447C; }
-  .bg-fast { background: #FAEEDA; color: #633806; }
-  .bg-ops { background: #F1EFE8; color: #444441; }
-  .period-body { display: none; border-top: 1px solid #e8e8e8; padding: 16px; background: #fff; }
-  .period-body.open { display: block; }
-  .body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .body-card { background: #f8f8f6; border-radius: 8px; padding: 12px 14px; }
-  .body-card h4 { font-size: 11px; font-weight: 500; color: #888; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .body-card p { font-size: 12px; color: #1a1a1a; line-height: 1.7; white-space: pre-wrap; }
-  .toggle-hint { font-size: 11px; color: #bbb; padding: 0 16px; display: flex; align-items: center; }
-  @media(max-width:600px) {
-    .period-header { grid-template-columns: 1fr; }
-    .ph-kw { display: none; }
-    .body-grid { grid-template-columns: 1fr; }
-  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a1a;padding:24px;max-width:900px;margin:0 auto}
+  h1{font-size:20px;font-weight:500;margin-bottom:4px}
+  .sub{font-size:13px;color:#888;margin-bottom:24px}
+  .period-row{border:1px solid #e8e8e8;border-radius:10px;margin-bottom:10px;overflow:hidden;background:#fff}
+  .period-row.highlight{border:2px solid #534AB7}
+  .period-row.urgent{border:2px solid #E8A020}
+  .period-header{display:grid;grid-template-columns:170px 1fr 150px;cursor:pointer;align-items:stretch}
+  .ph-time{background:#f8f8f6;padding:14px 16px;border-right:1px solid #e8e8e8;display:flex;flex-direction:column;justify-content:center}
+  .ph-time .month{font-size:13px;font-weight:500}
+  .ph-time .season{font-size:11px;margin-top:4px}
+  .season-peak{color:#27500A;font-weight:500}
+  .season-low{color:#791F1F}
+  .season-warm{color:#854F0B}
+  .season-new{color:#854F0B;font-weight:500}
+  .ph-funcs{padding:14px 16px;display:flex;flex-direction:column;justify-content:center}
+  .ph-funcs .func-line{font-size:13px;font-weight:500;white-space:pre-line;line-height:1.5}
+  .ph-funcs .badges{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+  .ph-kw{padding:14px 16px;border-left:1px solid #e8e8e8;font-size:11px;color:#666;display:flex;flex-direction:column;justify-content:center;line-height:1.7}
+  .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500}
+  .bg-p1{background:#EEEDFE;color:#3C3489}
+  .bg-p2{background:#E1F5EE;color:#085041}
+  .bg-p3{background:#E6F1FB;color:#0C447C}
+  .bg-fast{background:#FAEEDA;color:#633806}
+  .bg-ops{background:#F1EFE8;color:#444}
+  .bg-new{background:#FFF3CD;color:#854F0B}
+  .period-body{display:none;border-top:1px solid #e8e8e8;padding:16px;background:#fff}
+  .period-body.open{display:block}
+  .body-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .body-card{background:#f8f8f6;border-radius:8px;padding:12px 14px}
+  .body-card h4{font-size:11px;font-weight:500;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+  .body-card p{font-size:12px;color:#1a1a1a;line-height:1.7;white-space:pre-wrap}
+  @media(max-width:600px){.period-header{grid-template-columns:1fr}.ph-kw{display:none}.body-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <h1>Lynote 年度推广执行日历</h1>
-<p class="sub">基于 Google Trends 趋势 + Semrush 关键词数据 · 点击任意时间段展开详情</p>
-
+<p class="sub">基于 Google Trends + Semrush 关键词数据 · 点击任意时间段展开详情 &nbsp;|&nbsp; <span style="color:#E8A020">★ = 6月15日新上线功能</span></p>
 <div id="calendar"></div>
-
 <script>
-const periods = [
-  {
-    time:'5月底 — 6月',season:'学期末 淡季开始',seasonClass:'season-warm',
-    funcs:'AI Detector / Humanizer 蓄力\nCompress PDF / Image 接力',
-    badges:[{t:'P1蓄力',c:'bg-p1'},{t:'快速起量',c:'bg-fast'}],
-    kw:'best free ai detector\ncompress pdf to 100kb\nare ai detectors accurate',
-    actions:'① 完成 AI Detector / Humanizer 落地页SEO优化（title / meta / 内链结构）\n② 发布3篇博客：how do ai detectors work / best free ai detector / are ai detectors accurate\n③ 启动外链outreach，目标教育类博客，发出20封（为9月蓄力）\n④ Compress PDF落地页建设启动',
-    channels:'SEO博客 / 外链outreach / 落地页优化',
-    goal:'3篇博客上线 / 落地页优化完成 / outreach发出20封',
-    highlight:false,
-  },
-  {
-    time:'7月',season:'暑假 深度淡季',seasonClass:'season-low',
-    funcs:'Compress PDF / Image 主推\nAudio to Text / Video to Text 扩张',
-    badges:[{t:'快速起量',c:'bg-fast'},{t:'P3',c:'bg-p3'}],
-    kw:'compress pdf / compress pdf free\naudio to text transcription\nimage compressor',
-    actions:'① Compress PDF主落地页上线（compress pdf / compress pdf free / how to compress a pdf）\n② Compress Image落地页上线（compress image to 100kb / image compressor）\n③ Audio to Text落地页建设启动\n④ 持续AI Detector外链建设，不停投入（淡季外链性价比最高）',
-    channels:'SEO落地页 / 工具导航站提交',
-    goal:'2个Compress落地页上线 / 工具导航站收录3个',
-    highlight:false,
-  },
-  {
-    time:'8月',season:'开学预热 热度回升',seasonClass:'season-warm',
-    funcs:'AI Detector / Humanizer 预热冲刺\nAudio to Text / Video to Text',
-    badges:[{t:'P1预热',c:'bg-p1'},{t:'P2',c:'bg-p2'}],
-    kw:'best ai detector for students\nbest ai humanizer\naudio to text converter',
-    actions:'① 发布AI Detector开学季内容："best ai detector for students 2026"\n② AI Humanizer测评文章上线（best ai humanizer / best free ai humanizer）\n③ Reddit r/college、r/ChatGPT 布局开学讨论帖（5个）\n④ 联系YouTube KOL，确认9月合作内容发布计划\n⑤ Audio to Text落地页正式上线',
-    channels:'SEO博客 / Reddit预热布局 / KOL谈合作',
-    goal:'开学季内容3篇就位 / Reddit布局5帖 / KOL合作确认2个',
-    highlight:false,
-  },
-  {
-    time:'9月 ★ 全年最重要',season:'开学旺季 全年峰值',seasonClass:'season-peak',
-    funcs:'AI Detector / Humanizer 全力冲刺\nAI Notes 同步爆发',
-    badges:[{t:'P1全力',c:'bg-p1'},{t:'P2',c:'bg-p2'},{t:'Product Hunt',c:'bg-p3'}],
-    kw:'best ai detector / free ai detector\nhumanize ai / ai humanizer\nai note taker',
-    actions:'① AI Detector / Humanizer 全渠道同步推广，资源最大化投入\n② Product Hunt 正式冲榜（9月是全年最佳时机）\n③ Reddit / Quora 付费推广投入最大化\n④ YouTube KOL内容同步发布\n⑤ AI Notes落地页上线，承接开学记笔记需求\n⑥ 实时监控关键词排名，快速调整页面',
-    channels:'SEO / Reddit付费 / YouTube KOL / Product Hunt',
-    goal:'核心词进Google首页 / Product Hunt Top5 / 自然流量环比+50%',
-    highlight:true,
-  },
-  {
-    time:'10 — 11月',season:'期中考季 收割期',seasonClass:'season-peak',
-    funcs:'AI Detector / Humanizer 收割\nAI Notes / Audio to Text',
-    badges:[{t:'P1收割',c:'bg-p1'},{t:'P2',c:'bg-p2'}],
-    kw:'ai detector / ai text detector\nai note taker / ai note taking app\naudio to text',
-    actions:'① 维持内容和外链节奏，重心转向转化率优化\n② AI Notes加码：ai note taking app测评文章\n③ Audio to Text稳步推进：audio to text transcription落地页优化\n④ 分析9月数据，复盘关键词排名表现，调整下一阶段策略',
-    channels:'SEO优化 / 转化率优化 / 数据复盘',
-    goal:'付费转化率达标 / 自然流量维持峰值水平',
-    highlight:false,
-  },
-  {
-    time:'12月 — 2027年1月',season:'冬季 Video/Audio旺季',seasonClass:'season-warm',
-    funcs:'Video to Text / Audio to Text 冬季旺季\nCompress PDF / Document Translator',
-    badges:[{t:'P3',c:'bg-p3'},{t:'快速起量',c:'bg-fast'},{t:'网站运营',c:'bg-ops'}],
-    kw:'video to text / transcribe video to text\ndocument translation services\ncompress pdf',
-    actions:'① Video to Text落地页冲刺（12月是其全年热度峰值97）\n② Document Translator内容布局（2025年下半年已意外大幅爆发）\n③ Compress PDF维持流量基本盘，稳定产出\n④ AI Detector / Humanizer热度回落，维护现有排名即可，不加大投入',
-    channels:'SEO落地页 / SEO博客',
-    goal:'Video to Text落地页上线 / Document Translator月流量+20%',
-    highlight:false,
-  },
-  {
-    time:'2027年2 — 3月',season:'春季学期 年初旺季',seasonClass:'season-peak',
-    funcs:'AI Detector / Humanizer 年初旺季\nYouTube Transcript 历史峰值',
-    badges:[{t:'P1',c:'bg-p1'},{t:'P3',c:'bg-p3'}],
-    kw:'humanize ai / ai humanizer\nyoutube transcript generator\naudio to text transcription',
-    actions:'① AI Detector / Humanizer内容更新，覆盖春季学期场景\n② YouTube Transcript重点发力（历史2月峰值100，是全年唯一爆发窗口）\n③ Audio to Text持续推进（3月是其全年热度峰值）\n④ 新一轮外链outreach，重复上半年节奏',
-    channels:'SEO / Reddit / Chrome插件推广',
-    goal:'YouTube Transcript排名进首页 / 春季流量恢复至去年峰值80%+',
-    highlight:false,
-  },
-  {
-    time:'2027年4 — 5月',season:'学期末 AI Notes新高',seasonClass:'season-warm',
-    funcs:'AI Notes 春季新高\nCompress PDF / Image 毕业季',
-    badges:[{t:'P2',c:'bg-p2'},{t:'快速起量',c:'bg-fast'}],
-    kw:'ai note taker / ai note taking app\nbest ai note taking app\ncompress pdf / compress image',
-    actions:'① AI Notes全力推（历史4月新高100，2027年4月可能再创新高）\n② Compress类做毕业季场景内容（学生论文压缩、简历场景）\n③ 提前为6-8月淡季备好AI Detector蓄力内容，进入下一个年度循环',
-    channels:'SEO博客 / 落地页优化',
-    goal:'AI Notes核心词排名提升 / Compress类流量维稳',
-    highlight:false,
-  },
+const periods=[
+  {time:'5月底 — 6月14日',season:'★ 新功能上线前冲刺',seasonClass:'season-new',urgent:true,
+   funcs:'AI Image Detector / Bulk YT Transcript 上线前建页\nAI Notes 现在立刻开始推\nAI Detector / Humanizer 蓄力',
+   badges:[{t:'★ 6/15前必完成',c:'bg-new'},{t:'P1立刻推',c:'bg-p1'},{t:'P1蓄力',c:'bg-p1'}],
+   kw:'ai image detector\nai note taker / ai notes\nbest ai detector',
+   actions:'① ⭐ AI Image Detector落地页建设完成（6/15上线即有流量承接）\n② ⭐ Bulk YouTube Transcript落地页建设完成\n③ AI Notes主落地页+测评博客上线（现在立刻推，CPC$3.3全库最高）\n④ AI Detector/Humanizer外链outreach发出20封（为9月蓄力）\n⑤ 发布3篇AI Detector博客：how do ai detectors work / are ai detectors accurate / best free ai detector',
+   channels:'SEO落地页（新功能）/ SEO博客 / 外链outreach',
+   goal:'2个新功能落地页上线 / AI Notes博客2篇 / outreach发出20封',highlight:false},
+
+  {time:'6月15日 — 6月底',season:'★ 新功能正式上线',seasonClass:'season-new',urgent:true,
+   funcs:'★ AI Image Detector 正式上线推广\n★ Bulk YouTube Transcript 正式上线\nAI Notes 持续推广',
+   badges:[{t:'★ 新功能上线',c:'bg-new'},{t:'P1 AI Notes',c:'bg-p1'}],
+   kw:'ai image detector / ai detector image\nbulk youtube transcript\nai note taker',
+   actions:'① ⭐ AI Image Detector全渠道推广：Reddit发帖 / Product Hunt提交 / 博客发布\n② ⭐ Bulk YouTube Transcript：在YouTube Transcript落地页添加引导入口\n③ AI Notes继续推：ai note taking app测评文章上线\n④ Compress PDF落地页建设启动（7月主推）',
+   channels:'Reddit / Product Hunt / SEO博客 / 落地页上线',
+   goal:'AI Image Detector Reddit首帖 / Product Hunt提交 / AI Notes排名开始爬升',highlight:false},
+
+  {time:'7月',season:'暑假 深度淡季',seasonClass:'season-low',urgent:false,
+   funcs:'Compress PDF / Image 主推\nAudio to Text / Video to Text 扩张\nAI Image Detector 持续推广',
+   badges:[{t:'快速起量',c:'bg-fast'},{t:'P3',c:'bg-p3'},{t:'P2新功能',c:'bg-new'}],
+   kw:'compress pdf / compress pdf free\naudio to text transcription\nai image detector free',
+   actions:'① Compress PDF主落地页上线（compress pdf / compress pdf free / how to compress a pdf）\n② Compress Image落地页上线（compress image to 100kb / image compressor）\n③ Audio to Text落地页建设启动\n④ AI Image Detector持续发博客：best ai image detector / ai generated image detector\n⑤ 持续AI Detector外链建设，不停投入（淡季外链性价比最高）',
+   channels:'SEO落地页 / 工具导航站提交 / SEO博客',
+   goal:'2个Compress落地页上线 / 工具导航站收录3个 / AI Image Detector排名提升',highlight:false},
+
+  {time:'8月',season:'开学预热 热度回升',seasonClass:'season-warm',urgent:false,
+   funcs:'AI Detector / Humanizer 预热冲刺\nAI Notes 开学场景加码\nAudio to Text 落地页上线',
+   badges:[{t:'P1预热',c:'bg-p1'},{t:'P2',c:'bg-p2'}],
+   kw:'best ai detector for students\nbest ai humanizer / best free ai humanizer\nai note taking app',
+   actions:'① 发布AI Detector开学季内容："best ai detector for students 2026"\n② AI Humanizer测评文章上线（best ai humanizer / best free ai humanizer）\n③ AI Notes开学场景文章："开学必备AI笔记工具"\n④ Reddit r/college、r/ChatGPT 布局开学讨论帖（5个）\n⑤ 联系YouTube KOL，确认9月合作内容发布计划\n⑥ Audio to Text落地页正式上线',
+   channels:'SEO博客 / Reddit预热布局 / KOL谈合作',
+   goal:'开学季内容4篇就位 / Reddit布局5帖 / KOL合作确认2个',highlight:false},
+
+  {time:'9月 ★ 全年最重要',season:'开学旺季 全年峰值',seasonClass:'season-peak',highlight:true,urgent:false,
+   funcs:'AI Detector / Humanizer 全力冲刺\nAI Notes / AI Image Detector 同步爆发',
+   badges:[{t:'P1全力',c:'bg-p1'},{t:'P2',c:'bg-p2'},{t:'Product Hunt',c:'bg-p3'}],
+   kw:'best ai detector / free ai detector\nhumanize ai / ai humanizer\nai note taker / ai image detector',
+   actions:'① AI Detector / Humanizer 全渠道同步推广，资源最大化投入\n② Product Hunt 正式冲榜（9月是全年最佳时机）\n③ Reddit / Quora 付费推广投入最大化\n④ YouTube KOL内容同步发布\n⑤ AI Notes落地页开学记笔记场景强化\n⑥ AI Image Detector：媒体/编辑类博客加码推广\n⑦ 实时监控关键词排名，快速调整页面',
+   channels:'SEO / Reddit付费 / YouTube KOL / Product Hunt',
+   goal:'核心词进Google首页 / Product Hunt Top5 / 自然流量环比+50%',},
+
+  {time:'10 — 11月',season:'期中考季 收割期',seasonClass:'season-peak',urgent:false,
+   funcs:'AI Detector / Humanizer 收割\nAI Notes / Audio to Text 持续',
+   badges:[{t:'P1收割',c:'bg-p1'},{t:'P2',c:'bg-p2'}],
+   kw:'ai detector / ai text detector\nai note taker / ai note taking app\naudio to text',
+   actions:'① 维持内容和外链节奏，重心转向转化率优化\n② AI Notes加码：ai note taking app测评文章\n③ Audio to Text稳步推进：audio to text transcription落地页优化\n④ 分析9月数据，复盘关键词排名表现，调整策略',
+   channels:'SEO优化 / 转化率优化 / 数据复盘',
+   goal:'付费转化率达标 / 自然流量维持峰值水平',highlight:false},
+
+  {time:'12月 — 2027年1月',season:'冬季 Video/Audio旺季',seasonClass:'season-warm',urgent:false,
+   funcs:'Video to Text / Audio to Text 冬季旺季\nCompress PDF / Document Translator',
+   badges:[{t:'P3',c:'bg-p3'},{t:'快速起量',c:'bg-fast'},{t:'网站运营',c:'bg-ops'}],
+   kw:'video to text / transcribe video to text\ndocument translation services\ncompress pdf',
+   actions:'① Video to Text落地页冲刺（12月是其全年热度峰值97）\n② Document Translator内容布局（2025年下半年已意外大幅爆发）\n③ Compress PDF维持流量基本盘，稳定产出\n④ AI Detector/Humanizer热度回落，维护现有排名即可，不加大投入',
+   channels:'SEO落地页 / SEO博客',
+   goal:'Video to Text落地页上线 / Document Translator月流量+20%',highlight:false},
+
+  {time:'2027年2 — 3月',season:'春季学期 年初旺季',seasonClass:'season-peak',urgent:false,
+   funcs:'AI Detector / Humanizer 年初旺季\nYouTube Transcript 历史峰值',
+   badges:[{t:'P1',c:'bg-p1'},{t:'P3',c:'bg-p3'}],
+   kw:'humanize ai / ai humanizer\nyoutube transcript generator\naudio to text transcription',
+   actions:'① AI Detector/Humanizer内容更新，覆盖春季学期场景\n② YouTube Transcript重点发力（历史2月峰值100，是全年唯一爆发窗口）\n③ Audio to Text持续推进（3月是其全年热度峰值）\n④ 新一轮外链outreach，重复上半年节奏',
+   channels:'SEO / Reddit / Chrome插件推广',
+   goal:'YouTube Transcript排名进首页 / 春季流量恢复至去年峰值80%+',highlight:false},
+
+  {time:'2027年4 — 5月',season:'学期末 AI Notes新高',seasonClass:'season-warm',urgent:false,
+   funcs:'AI Notes 春季新高\nAI Image Detector 持续加码\nCompress PDF / Image 毕业季',
+   badges:[{t:'P1',c:'bg-p1'},{t:'P2',c:'bg-p2'},{t:'快速起量',c:'bg-fast'}],
+   kw:'ai note taker / ai note taking app\nai image detector\ncompress pdf / compress image',
+   actions:'① AI Notes全力推（历史4月新高100，2027年4月可能再创新高）\n② AI Image Detector趋势持续上升，加码媒体/教育场景内容\n③ Compress类做毕业季场景内容（学生论文压缩、简历压缩场景）\n④ 提前为6-8月淡季备好AI Detector蓄力内容，进入下一个循环',
+   channels:'SEO博客 / 落地页优化',
+   goal:'AI Notes核心词排名提升 / Compress类流量维稳',highlight:false},
 ];
 
-const cal = document.getElementById('calendar');
-periods.forEach((p, i) => {
-  const row = document.createElement('div');
-  row.className = 'period-row' + (p.highlight?' highlight':'');
-
-  const badges = p.badges.map(b=>`<span class="badge ${b.c}">${b.t}</span>`).join('');
-  const kwHtml = p.kw.split('\n').map(k=>`<span style="display:block">${k}</span>`).join('');
-
-  row.innerHTML = `
+const cal=document.getElementById('calendar');
+periods.forEach((p,i)=>{
+  const row=document.createElement('div');
+  row.className='period-row'+(p.highlight?' highlight':p.urgent?' urgent':'');
+  const badges=p.badges.map(b=>`<span class="badge ${b.c}">${b.t}</span>`).join('');
+  const kwHtml=p.kw.split('\n').map(k=>`<span style="display:block">${k}</span>`).join('');
+  row.innerHTML=`
     <div class="period-header" onclick="toggle(${i})">
-      <div class="ph-time">
-        <span class="month">${p.time}</span>
-        <span class="season ${p.seasonClass}">${p.season}</span>
-      </div>
-      <div class="ph-funcs">
-        <div class="func-line">${p.funcs}</div>
-        <div class="badges">${badges}</div>
-      </div>
+      <div class="ph-time"><span class="month">${p.time}</span><span class="season ${p.seasonClass}">${p.season}</span></div>
+      <div class="ph-funcs"><div class="func-line">${p.funcs}</div><div class="badges">${badges}</div></div>
       <div class="ph-kw">${kwHtml}</div>
     </div>
     <div class="period-body" id="body-${i}">
@@ -158,16 +137,12 @@ periods.forEach((p, i) => {
         <div class="body-card"><h4>主要渠道</h4><p>${p.channels}</p></div>
         <div class="body-card"><h4>阶段目标</h4><p>${p.goal}</p></div>
       </div>
-    </div>
-  `;
+    </div>`;
   cal.appendChild(row);
 });
-
-function toggle(i) {
-  document.getElementById('body-'+i).classList.toggle('open');
-}
+function toggle(i){document.getElementById('body-'+i).classList.toggle('open')}
 document.getElementById('body-0').classList.add('open');
-document.getElementById('body-3').classList.add('open');
+document.getElementById('body-4').classList.add('open');
 </script>
 </body>
 </html>
